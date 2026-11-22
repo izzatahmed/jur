@@ -1,0 +1,10 @@
+name = "uj-orh-submissions"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Public runtime configuration only.  Keep passwords and tokens as Wrangler secrets.
+[vars]
+GITHUB_OWNER = "izzatahmed"
+GITHUB_REPO = "uj-orh-submissions"
+ALLOWED_ORIGIN = "https://izzatahmed.github.io"
+ALLOWED_TURNSTILE_HOSTNAME = "izzatahmed.github.io"
