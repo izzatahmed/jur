@@ -1,0 +1,18 @@
+name = "uj-orh-editorial"
+main = "src/index.js"
+compatibility_date = "2026-11-15"
+
+# IMPORTANT: This is a SEPARATE, Access-protected Worker. Do not replace
+# the existing uj-orh-submissions Worker or its GitHub token settings.
+# These initial placeholder settings intentionally cause a CLOSED state.
+[vars]
+GITHUB_OWNER = "izzatahmed"
+GITHUB_REPO = "jus"
+ACCESS_TEAM_DOMAIN = "https://REPLACE-WITH-YOUR-TEAM.cloudflareaccess.com"
+ACCESS_AUD = "REPLACE_WITH_ACCESS_APPLICATION_AUDIENCE"
+ADMIN_EMAILS = "REPLACE_WITH_YOUR_APPROVED_EMAIL@example.invalid"
+
+[assets]
+directory = "./public"
+binding = "ASSETS"
+run_worker_first = true
