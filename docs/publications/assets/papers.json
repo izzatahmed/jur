@@ -1,0 +1,291 @@
+[
+  {
+    "id": "UJRH-DEMO-2026-001",
+    "slug": "home-bp-follow-up",
+    "kind": "Original research",
+    "field": "Medicine & Health Sciences",
+    "topic": "Preventive medicine",
+    "status": "certified",
+    "grade": "A",
+    "title": "Home blood-pressure monitoring and follow-up: a demonstration cohort study",
+    "title_ar": "المراقبة المنزلية لضغط الدم والمتابعة: دراسة أترابية توضيحية",
+    "authors": "Maya N. Faris; Samir J. Rahman; Leila Q. Darwish",
+    "affiliations": "Fictional Centre for Preventive Medicine, Demonstration Institute",
+    "date": "2026-11-12",
+    "version": "1.0",
+    "doi": null,
+    "license": "CC BY 4.0 (proposed for a future real platform)",
+    "citations": 16,
+    "downloads": 284,
+    "reviews": 2,
+    "replications": 1,
+    "badges": [
+      "Simulated expert certification",
+      "Open full text",
+      "PDF available"
+    ],
+    "abstract": "Background: Home blood-pressure monitoring may facilitate communication between patients and primary-care teams. Objective: To illustrate how an openly available, peer-reviewed article could present its methods, findings, and limitations. Methods: We created a fully synthetic cohort of 480 virtual participants with two follow-up pathways. Results: In the synthetic dataset, timely follow-up was recorded for 82% of virtual participants in the structured-support pathway and 69% in the comparison pathway. Conclusions: These invented numbers are for interface testing only. They do not represent clinical evidence or support treatment recommendations.",
+    "abstract_ar": "الخلفية: قد تسهم مراقبة ضغط الدم منزلياً في تحسين التواصل مع الرعاية الأولية. الهدف: توضيح كيف تعرض منصة نشر مفتوحة النتائج والمنهجية والقيود. المنهجية: إنشاء بيانات افتراضية بالكامل لـ 480 مشاركاً وهمياً. النتائج: نُسب متابعة افتراضية 82% مقابل 69%. جميع الأرقام تركيبية ولا تمثل دليلاً طبياً.",
+    "keywords": [
+      "Blood pressure",
+      "Patient follow-up",
+      "Synthetic data",
+      "Demonstration"
+    ],
+    "scores": {
+      "Methodological rigor": 92,
+      "Evidence transparency": 91,
+      "Originality": 81,
+      "Scientific relevance": 90,
+      "Reproducibility": 94
+    },
+    "summary": "A complete illustrative biomedical article with figure, methods, disclosure and editorial record. Every individual, result and review is fictional.",
+    "sections": [
+      [
+        "Introduction",
+        "Home monitoring has become a prominent component of cardiovascular prevention discussions. Scientific publishing requires readers to inspect not only headline outcomes but also the assumptions, limitations, and strength of evidence. This sample demonstrates those conventions; it is not a clinical investigation."
+      ],
+      [
+        "Methods",
+        "We generated 480 artificial records in two fictional pathways (240 per group). The primary illustrative outcome was completion of a scheduled follow-up interaction. No real participants, medical records, institutional approvals, or patient information were involved. The dataset was constructed solely for visual and workflow demonstration."
+      ],
+      [
+        "Results",
+        "Among 240 synthetic records in the structured-support pathway, 197 were assigned a completed follow-up (82.1%). Among 240 comparison records, 166 were assigned a completed follow-up (69.2%). These values are predefined examples, not statistically analyzed observations."
+      ],
+      [
+        "Discussion",
+        "The sample illustrates an article layout in which the methods and limitations accompany the results. In a real submission, reviewers would evaluate bias, confounding, outcome definition, missing data, statistical uncertainty, and the clinical relevance of any observed associations."
+      ],
+      [
+        "Limitations",
+        "The article uses invented authors and a wholly simulated dataset. There were no actual patients, interventions, clinical outcomes, or independent expert evaluations. The information must not be used to guide medical decisions."
+      ],
+      [
+        "Ethics and data availability",
+        "No human participant data were used. A live version of the platform would require an appropriate ethics statement and a data-sharing declaration for each research output."
+      ]
+    ],
+    "figure": {
+      "caption": "Figure 1. Synthetic follow-up completion values, included exclusively to demonstrate figure presentation.",
+      "items": [
+        [
+          "Structured support",
+          82
+        ],
+        [
+          "Comparison",
+          69
+        ]
+      ]
+    },
+    "reviewers": [
+      [
+        "Reviewer A (demonstration)",
+        "The structure makes the study question, simulated data origin, and methodological limitations explicit. The displayed grade is a UI example, not an independently earned certificate."
+      ],
+      [
+        "Reviewer B (demonstration)",
+        "The article includes a clear synthetic-data disclosure. In real clinical work, substantial additional safeguards and statistical review would be necessary."
+      ]
+    ],
+    "timeline": [
+      [
+        "12 Nov 2026",
+        "Demonstration record created"
+      ],
+      [
+        "16 Nov 2026",
+        "Two fictional evaluation examples added"
+      ],
+      [
+        "20 Nov 2026",
+        "Illustrative replication indicator entered; not externally verified"
+      ]
+    ],
+    "references": [
+      "No research citations are claimed for this fabricated example. References would be supplied and verified for a genuine manuscript."
+    ]
+  },
+  {
+    "id": "UJRH-DEMO-2026-002",
+    "slug": "urban-rooftop-heat",
+    "kind": "Replication study",
+    "field": "Engineering & Environment",
+    "topic": "Urban sustainability",
+    "status": "certified",
+    "grade": "B+",
+    "title": "Rooftop greening and urban heat: a reproducibility demonstration",
+    "title_ar": "تخضير الأسطح والحرارة الحضرية: نموذج توضيحي لإعادة الإنتاج",
+    "authors": "Hana S. Qasem; Nabil R. Haddad",
+    "affiliations": "Fictional Laboratory for Sustainable Cities, Demonstration Institute",
+    "date": "2026-11-09",
+    "version": "1.1",
+    "doi": null,
+    "license": "CC BY 4.0 (proposed for a future real platform)",
+    "citations": 6,
+    "downloads": 173,
+    "reviews": 2,
+    "replications": 0,
+    "badges": [
+      "Simulated expert certification",
+      "Version history",
+      "PDF available"
+    ],
+    "abstract": "Objective: Demonstrate a transparent publication record for reproducible environmental research. Methods: A fully synthetic dataset was assembled for 24 hypothetical roofs divided into two design classes. Results: Illustrative midday surface-temperature differences averaged 3.4 degrees Celsius between simulated configurations. Conclusions: The values are fabricated for display testing and do not estimate the real-world benefit of rooftop greening.",
+    "abstract_ar": "الهدف: عرض نموذج شفاف لنشر البحوث البيئية القابلة لإعادة الإنتاج. المنهجية: بيانات تركيبية لـ 24 سطحاً افتراضياً. النتائج: فرق افتراضي قدره 3.4 درجات مئوية. هذه النتائج لا تمثل تقديراً ميدانياً حقيقياً.",
+    "keywords": [
+      "Urban heat",
+      "Green roofs",
+      "Reproducibility",
+      "Simulation"
+    ],
+    "scores": {
+      "Methodological rigor": 84,
+      "Evidence transparency": 90,
+      "Originality": 74,
+      "Scientific relevance": 82,
+      "Reproducibility": 96
+    },
+    "summary": "Demonstrates a replication-focused article where transparency and reproducibility matter even when novelty is modest.",
+    "sections": [
+      [
+        "Introduction",
+        "Replication and reproducibility are essential components of cumulative scientific progress. They can be undervalued by editorial systems that prioritize novelty. This fictional demonstration shows how a publishing hub could recognize transparent replication work."
+      ],
+      [
+        "Methods",
+        "We constructed a synthetic table of 24 hypothetical building roofs, classifying twelve as conventional and twelve as vegetated. Artificial surface-temperature values were assigned for two conditions. No instruments were deployed and no fieldwork occurred."
+      ],
+      [
+        "Results",
+        "The synthetic values were selected to create an illustrative mean difference of 3.4 degrees Celsius. This should not be interpreted as an estimate or confidence interval for any real city."
+      ],
+      [
+        "Discussion",
+        "A future validated replication article would describe equipment calibration, environmental confounders, sampling uncertainty, analysis scripts, and the relationship of its results to earlier studies."
+      ],
+      [
+        "Limitations",
+        "The numbers were constructed for website demonstration. No real environmental measurements or independent reproducibility checks were performed."
+      ],
+      [
+        "Data and code availability",
+        "This is sample content only. Future records should identify a real repository, versioned code, data license, and persistent identifiers where appropriate."
+      ]
+    ],
+    "figure": {
+      "caption": "Figure 1. Hypothetical relative surface-temperature indices; values are deliberately simulated.",
+      "items": [
+        [
+          "Conventional roof",
+          83
+        ],
+        [
+          "Greened roof",
+          65
+        ]
+      ]
+    },
+    "reviewers": [
+      [
+        "Reviewer A (demonstration)",
+        "The sample shows how replication studies can be given an explicit assessment rather than rejected solely for limited novelty."
+      ],
+      [
+        "Reviewer B (demonstration)",
+        "The public record appropriately separates transparent research reporting from scientific importance and impact."
+      ]
+    ],
+    "timeline": [
+      [
+        "09 Nov 2026",
+        "Demonstration record created"
+      ],
+      [
+        "14 Nov 2026",
+        "Synthetic revision: data statement expanded"
+      ],
+      [
+        "18 Nov 2026",
+        "Fictional editorial note displayed"
+      ]
+    ],
+    "references": [
+      "No real scientific citations were used in generating this demonstration record."
+    ]
+  },
+  {
+    "id": "UJRH-DEMO-2026-003",
+    "slug": "textual-cross-reference-map",
+    "kind": "Methods / preprint",
+    "field": "Humanities & Digital Scholarship",
+    "topic": "Digital textual analysis",
+    "status": "preprint",
+    "grade": "Not certified",
+    "title": "Mapping references across a simulated textual corpus: a digital humanities protocol",
+    "title_ar": "رسم خريطة الإحالات في متن نصي افتراضي: بروتوكول للإنسانيات الرقمية",
+    "authors": "Noura A. Salim; Omar Y. Khatib",
+    "affiliations": "Fictional Centre for Digital Humanities, Demonstration Institute",
+    "date": "2026-11-05",
+    "version": "0.9",
+    "doi": null,
+    "license": "CC BY 4.0 (proposed for a future real platform)",
+    "citations": 0,
+    "downloads": 92,
+    "reviews": 0,
+    "replications": 0,
+    "badges": [
+      "Preprint only",
+      "Not peer reviewed",
+      "PDF available"
+    ],
+    "abstract": "This protocol proposes a reproducible method for identifying and categorizing cross-references in a small synthetic collection of texts. The example illustrates how preliminary scholarly work can be publicly displayed without implying that independent scientific certification has occurred. The sample has no authentic corpus, external reviewers, or validated results.",
+    "abstract_ar": "يقترح هذا البروتوكول طريقة قابلة لإعادة الإنتاج لاستخراج الإحالات وتصنيفها في متن نصي تركيبي صغير. يوضح المثال نشر العمل الأولي دون الادعاء باعتماد علمي أو تحكيم مستقل.",
+    "keywords": [
+      "Digital humanities",
+      "Cross-references",
+      "Research protocol",
+      "Open methods"
+    ],
+    "scores": {},
+    "summary": "Demonstrates a publicly accessible preprint without scientific certification, emphasizing the difference between dissemination and peer review.",
+    "sections": [
+      [
+        "Research question",
+        "Can explicit intra-textual cross-references in a bounded corpus be identified through transparent rules and assessed for inter-annotator agreement?"
+      ],
+      [
+        "Proposed methods",
+        "A protocol would define an annotation codebook, inclusion and exclusion criteria, blinded dual annotation, adjudication, and a reproducible extraction script. A genuine project would also document corpus provenance and license."
+      ],
+      [
+        "Planned analyses",
+        "The authors would estimate agreement between annotators, classify reference types, and evaluate the reliability of automated extraction on a held-out set."
+      ],
+      [
+        "Expected contribution",
+        "An openly available protocol can allow critique of the method before results are collected. Its disclosure does not imply that the hypotheses are confirmed."
+      ],
+      [
+        "Limitations",
+        "The entire record is fictional and contains no real data collection, human annotation, external reviews, or empirical findings."
+      ]
+    ],
+    "figure": null,
+    "reviewers": [],
+    "timeline": [
+      [
+        "05 Nov 2026",
+        "Fictional protocol publicly presented as a preprint"
+      ],
+      [
+        "23 Nov 2026",
+        "Awaiting simulated peer review; certification not granted"
+      ]
+    ],
+    "references": [
+      "No external references are asserted in this example."
+    ]
+  }
+]
