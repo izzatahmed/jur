@@ -1,0 +1,13 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import worker, {validId,config,signedAction,editorial} from '../editorial-worker/src/index.js';
+const env={GITHUB_OWNER:'izzatahmed',GITHUB_REPO:'jus',GITHUB_TOKEN:'test-not-real',ACCESS_TEAM_DOMAIN:'https://something.cloudflareaccess.com',ACCESS_AUD:'valid-aud-1234',ADMIN_EMAILS:'admin@example.com'};
+const sample=()=>({submissionId:'UJORH-20261123-ABCDEF12',editorial:editorial()});
+test('A private worker fails closed until Access settings exist',async()=>{const r=await worker.fetch(new Request('https://admin.example.workers.dev/'),{});assert.equal(r.status,503);const body=await r.text();assert.match(body,/locked/i)});
+test('A configured worker rejects an unauthenticated request',async()=>{const r=await worker.fetch(new Request('https://admin.example.workers.dev/'),env);assert.equal(r.status,401)});
+test('Malformed Cloudflare Access tokens cannot authenticate',async()=>{const r=await worker.fetch(new Request('https://admin.example.workers.dev/api/submissions',{headers:{'Cf-Access-Jwt-Assertion':'header.body.signature'}}),env);assert.equal(r.status,401)});
+test('Only receipt-style private paths are accepted',()=>{assert.ok(validId('UJORH-20261123-ABCDEF12'));assert.equal(validId('../secrets'),false);assert.equal(validId('bad path'),false)});
+test('Real editorial candidate requires two distinct supportive recorded reports',()=>{const m=sample();assert.throws(()=>signedAction('certify',m,{}, {email:'admin@example.com'}),/Two distinct/);for(const n of ['R-1','R-2'])signedAction('review',m,{reviewer:n,recommendation:'accept',notes:'Reasonably detailed synthetic note for evaluation.',scores:{rigor:86,evidence:84,originality:77,relevance:85,reproducibility:81}}, {email:'admin@example.com'});const ed=signedAction('certify',m,{}, {email:'admin@example.com'});assert.equal(ed.status,'candidate')});
+test('Live staging does not create a publicly published state',()=>{const m=sample();m.editorial.status='candidate';assert.throws(()=>signedAction('stage',m,{consent:true,approval:false},{email:'admin@example.com'}),/consent/);const e=signedAction('stage',m,{consent:true,approval:true},{email:'admin@example.com'});assert.equal(e.status,'staged');assert.notEqual(e.status,'published')});
+test('Publisher cannot select public repository in config without explicit configured GitHub token',()=>{assert.equal(config({...env,GITHUB_TOKEN:''}),false);assert.equal(config({...env,ACCESS_AUD:'REPLACE_WITH_AUD'}),false);
+});
