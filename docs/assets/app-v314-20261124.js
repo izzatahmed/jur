@@ -1,0 +1,160 @@
+'use strict';
+const cfg = Object.assign({mode:'demo',apiUrl:'',turnstileSiteKey:'',maxFileMB:5,supportEmail:''},window.UJORH_CONFIG||{});
+const live = cfg.mode==='live' && /^https:\/\//i.test(cfg.apiUrl) && !!cfg.turnstileSiteKey;
+const $ = sel=>document.querySelector(sel);
+const $$ = sel=>[...document.querySelectorAll(sel)];
+const translations = {
+ ar:{
+  topNotice:'نموذج تجريبي مستقل مقترح للجامعة الأردنية · ليس خدمة رسمية لاستقبال الأبحاث',demoTag:'نسخة تجريبية',brandSub:'مبادرة مقترحة للجامعة الأردنية',navHow:'آلية العمل',navLibrary:'مكتبة الأبحاث',navPublished:'المنشورات ↗',showcaseOver:'المنتج النهائي · النشر العلمي المفتوح',showcaseTitle:'استكشف شكل المنشورات العلمية النهائية.',showcaseDesc:'نصوص كاملة وملفات PDF وتقييمات علمية شفافة وسجلات مراجعة لاحقة. جميع المنشورات المعروضة توضيحية وافتراضية.',showcaseLink:'افتح منصة النشر ↗',navEvaluation:'التقييم العلمي',navAwards:'الجوائز',navSubmit:'قدّم بحثك ↗',heroBadge:'مسار جديد للنشر العلمي',heroTitle:'كل بحث علمي قيّم <em>يستحق أن يُرى.</em>',heroBody:'قدّم بحثك مرة واحدة دون اشتراطات التنسيق المتكررة، واستفد من تقييم شفاف وتحكيم بشري مستقل ومتابعة علمية بعد النشر.',heroCTA:'ابدأ تقديم البحث ↗',heroSecondary:'تعرّف إلى الآلية ↓',heroProof1:'نموذج تقديم واحد',heroProof2:'تقييم يقوده الخبراء',heroProof3:'مبادئ العلم المفتوح',journeyLabel:'المسار العلمي التوضيحي',journeyBadge:'شفافية من البداية',journeyTitle:'من المخطوطة إلى السجل العلمي',journeySub:'مسار أوضح لكل باحث',journey1:'تقديم موحّد',journey1sub:'دون تنسيق خاص بكل مجلة',journey2:'فحص بمساعدة الذكاء الاصطناعي',journey2sub:'ملاحظات موثقة وقابلة للتحقق',journey3:'تحكيم مستقل من الخبراء',journey3sub:'الاعتماد العلمي قرار بشري',journey4:'سجل مفتوح ومراجعة مستمرة',journey4sub:'التقييم العلمي يتطور',journeyFooter:'متطلبات إدارية أقل، وفرص أكثر للاكتشاف.',stat1:'تقديم واحد',stat1sub:'مدخل موحّد دون تنسيق خاص',stat2:'تقييم على مرحلتين',stat2sub:'قبل النشر وبعده',stat3:'جوائز تميز سنوية',stat3sub:'تكريم مقترح لأفضل الأبحاث',howOver:'رحلة بحثية أفضل',howTitle:'إجراءات أقل. تقدّم علمي أكبر.',howDesc:'تسهيل إتاحة البحوث مع الفصل بين النشر الأولي والاعتماد العلمي.',f1t:'قدّم مرة واحدة',f1d:'ارفع ملف PDF أو Word مع المعلومات الأساسية دون شروط شكلية خاصة بالمجلات.',f2t:'تدقيق شفاف',f2d:'تكشف الفحوص الأولية عن النواقص والتناقضات والمراجع المشكوك فيها ليتحقق منها المختصون.',f3t:'تحكيم مستقل',f3d:'يقرّر الخبراء المؤهلون مدى استيفاء البحث لمعايير الاعتماد العلمي.',f4t:'تقييم مستمر',f4d:'تُثري الأدلة اللاحقة والتكرار المستقل وملاحظات الخبراء السجل العلمي.',submitOver:'بوابة الباحثين',submitTitle:'قدّم بحثك العلمي.',submitIntro:'طلب مبسط واحد. يظل ملف البحث خاصاً حتى توافق على أي إتاحة عامة منفصلة.',formTitle:'مخطوطة جديدة',formDemo:'وضع تجريبي — لن يغادر الملف متصفحك',formLive:'وضع تجريبي متصل — تُرفع الملفات إلى مستودع خاص',step1:'الدراسة',step2:'الباحث',step3:'الملف',labelTitle:'عنوان البحث *',labelDiscipline:'التخصص *',labelType:'نوع البحث *',labelAbstract:'الملخص *',abstractHint:'80 حرفاً على الأقل • 3000 كحد أقصى',labelKeywords:'الكلمات المفتاحية',labelName:'اسم الباحث المسؤول *',labelEmail:'البريد الإلكتروني *',labelAffiliation:'المؤسسة/الانتماء العلمي *',labelCountry:'البلد *',labelOrcid:'رقم ORCID (اختياري)',labelEthics:'الإقرار الأخلاقي *',ethicsNotice:'لا ترفع بيانات مرضى تعرّف الهوية أو معلومات صحية محمية أو مواد سرية لأطراف أخرى. هذه النسخة غير معتمدة لتخزين البيانات السريرية.',dropTitle:'أسقط المخطوطة هنا',dropSub:'أو اضغط لاختيار ملف PDF أو DOCX',dropLimit:'الحد الأقصى 5 ميغابايت في النسخة التجريبية',agreeOriginal:'أؤكد الحصول على موافقة المؤلفين على التقديم وخلو الملف من بيانات مرضى معرّفة للهوية.',agreePrivacy:'أفهم شروط الخصوصية والتجربة، وأن التقديم لا يعني النشر أو الاعتماد العلمي أو اعتماد الجامعة.',robotText:'أكمل التحقق الأمني لإرسال الملف.',back:'→ رجوع',saveNote:'لا يلزم حساب لاستخدام النموذج',continue:'متابعة ←',send:'إرسال المخطوطة ↗',another:'تقديم بحث آخر',sideOver:'التمييز الجوهري',sideTitle:'الإتاحة المفتوحة لا تعني الاعتماد العلمي التلقائي.',sideText:'كل بحث يخضع للفحص التحريري المناسب؛ وتختلف صفة المسودة المعلنة عن المقال المحكّم المعتمد.',sideBadge:'النزاهة العلمية أولاً ↗',sideFree:'مصممة للتبسيط',sideFreeDesc:'رفع واحد وحالة مراجعة واضحة وسجل للنقاش العلمي، دون إعادة التنسيق في كل مرة.',sidePilot:'هذا نموذج مستقل لإثبات الفكرة، وليس منصة نشر رسمية للجامعة.',libOver:'مكتبة الأبحاث',libTitle:'مكان لكل بحث جدير بالاهتمام.',libDesc:'أمثلة افتراضية توضح الإتاحة والاعتماد وإعادة التقييم. لا توجد مقالات حقيقية معروضة.',all:'جميع الأمثلة',validated:'معتمد',preprint:'مسودة أولية',revision:'بحاجة لتعديل',libFoot:'الأبحاث والتقديرات المعروضة افتراضية. تبقى التقديمات الفعلية خاصة ولا تُدرج تلقائياً في المكتبة.',evalOver:'تقييم قائم على الأدلة',evalTitle:'ليس حكماً واحداً بالقبول أو الرفض.',evalDesc:'الموثوقية والأصالة والأثر العلمي أبعاد مختلفة. التصميم المقترح يجعل الفرق واضحاً.',scoreLabel:'بطاقة تقييم افتراضية',scoreTitle:'دراسة سريرية محكّمة',m1:'متانة المنهجية',m2:'موثوقية الأدلة',m3:'الإضافة العلمية',m4:'الأهمية العلمية',m5:'قابلية التكرار',scoreFoot:'مثال توضيحي فقط. يتطلب سلم التقدير تحققاً علمياً؛ الأخطاء الجوهرية تمنع الاعتماد مهما كان المجموع.',postLabel:'الأدلة بعد النشر',postTitle:'العلم الجيد حوار مستمر.',postDesc:'جرّب تحديثاً افتراضياً. الدليل المستقل الجديد يحدّث سجل الأثر دون أن يغيّر موثوقية البحث تلقائياً.',postR1:'الموثوقية العلمية',postR2:'دراسات التكرار المستقلة',postR3:'مراجعات الخبراء بعد النشر',postR4:'مستوى الأثر',unchanged:'ثابتة',simulate:'محاكاة دراسة تكرار مستقلة ↗',reset:'إعادة ضبط التجربة',postFoot:'محاكاة فقط • القرار العلمي للخبراء.',awardsOver:'مكافأة التميّز العلمي',awardsTitle:'عشر جوائز سنوية للأبحاث المتميزة.',awardsBody:'جوائز التميز العلمي المقترحة لتكريم المنهجية الرصينة والأصالة والتكرار المستقل والإضافة المعرفية، لا اسم المجلة وحده.',awardsLink:'اكتشف رحلة البحث ↗',faqOver:'أسئلة وأجوبة',faqTitle:'وضوح في كل خطوة.',q1:'هل تُدير الجامعة الأردنية هذه الخدمة حالياً؟',a1:'لا. هذا نموذج تقني مستقل للمناقشة المؤسسية، وليس خدمة رسمية أو دعوة لإرسال أبحاث سرية.',q2:'هل يعني تقديم البحث نشره؟',a2:'لا. يختلف التقديم عن النشر. يتطلب الاعتماد مراجعة بشرية مستقلة، وتتطلب الإتاحة العامة سياسة واضحة وموافقة الباحث.',q3:'من يرى الملف المرفوع؟',a3:'في الوضع التجريبي لا يُرفع شيء. عند تفعيل وضع التجربة المتصل يحفظ خادم آمن الملف في مستودع GitHub خاص يديره المشرف. لا ترسل بيانات مرضى أو معلومات سرية.',q4:'هل يقرر الذكاء الاصطناعي صلاحية البحث؟',a4:'لا. الفحوص الآلية استشارية، ويبقى قرار الاعتماد العلمي لدى المحررين والمحكمين المستقلين.',q5:'هل تعمل البوابة على الجوال؟',a5:'نعم. تدعم الواجهة الهواتف والعربية والإنجليزية. وهذه النسخة نموذجية تجريبية.',footerSub:'مبادرة مقترحة للنشر العلمي',footerText:'لتسهيل نشر المعرفة العلمية مع المحافظة على التحكيم المستقل والنزاهة.',footerNotice:'نموذج مستقل · غير تابع للجامعة الأردنية وغير معتمد منها.',footerExplore:'استكشف',footerLegal:'الشفافية',privacyLink:'الخصوصية وشروط التجربة',footerLast:'صُممت للتشاور والتجربة وتلقي الملاحظات.',
+  noResults:'لا توجد نتائج مطابقة',readExample:'عرض المثال ←',sampleAbstract:'هذا مثال افتراضي، وليس دراسة منشورة أو حكماً علمياً حقيقياً.',viewFull:'سجل تقييم توضيحي',demoSuccess:'تم تسجيل التجربة محلياً، ولم يُرسل الملف إلى أي جهة. الرقم توضيحي فقط.',liveSuccess:'تم إرسال المخطوطة إلى المستودع الخاص للتجربة. لا يعني ذلك نشرها أو تحكيمها.',errorRequired:'يرجى استكمال جميع الحقول المطلوبة على نحو صحيح.',errorFile:'يرجى اختيار ملف PDF أو DOCX صالح ضمن الحد المسموح.',errorRobot:'يرجى إكمال التحقق الأمني ثم إعادة المحاولة.',errorNetwork:'تعذّر الإرسال. يُرجى التحقق من الاتصال والإعدادات ثم المحاولة مجدداً.',impactEmerging:'أثر ناشئ',impactDeveloping:'أثر متنامٍ',impactStudied:'أدلة مستقلة متزايدة'
+ },
+ en:{}
+};
+// Mobile browsers and privacy modes can intermittently disable localStorage.
+// Preferences are optional: failure must never stop page initialization.
+function readSetting(key){try{return window.localStorage.getItem(key);}catch(error){console.warn('Preference storage unavailable:',key);return null;}}
+function saveSetting(key,value){try{window.localStorage.setItem(key,value);}catch(error){console.warn('Preference not persisted:',key);}}
+// For mobile stability: the page always boots in English; language switches are
+// explicit for the current page only, so an old saved value cannot break future visits.
+let lang='en';
+// Ignore old theme preferences during recovery; the button still works per visit.
+let theme='light';
+let step=1, pickedFile=null, turnstileWidgetId=null, filter='all', query='', replications=0;
+const records=[
+ {id:1,field:'Medicine & Health Sciences',type:'Original research',status:'validated',grade:'A',title:'Blood pressure patterns and long-term cardiovascular outcomes: a cohort analysis',ar:'أنماط ضغط الدم والنتائج القلبية الوعائية طويلة المدى: دراسة أترابية',author:'Dr. Sara Mahmoud · Example University',year:'2026',desc:'A hypothetical clinical cohort investigating the relationship between pressure patterns and outcomes.',topic:'Cardiovascular medicine',reviews:2},
+ {id:2,field:'Natural Sciences',type:'Replication study',status:'validated',grade:'B',title:'Independent replication of a soil microbiome resilience model',ar:'تكرار مستقل لنموذج مرونة الميكروبيوم في التربة',author:'Dr. Omar Salim · Example Institute',year:'2026',desc:'A carefully controlled replication study with limited novelty but useful confirmatory evidence.',topic:'Ecology',reviews:3},
+ {id:3,field:'Engineering & Technology',type:'Protocol',status:'preprint',grade:'—',title:'A low-energy water purification approach: a preregistered research protocol',ar:'منهج منخفض الطاقة لتنقية المياه: بروتوكول بحث مسجل',author:'Dr. Lina Haddad · Example Laboratory',year:'2026',desc:'An early research protocol shared openly before experiments and independent expert certification.',topic:'Environmental engineering',reviews:0},
+ {id:4,field:'Social Sciences',type:'Original research',status:'revision',grade:'—',title:'Digital education adoption across rural schools: exploratory findings',ar:'اعتماد التعليم الرقمي في المدارس الريفية: نتائج استكشافية',author:'Dr. Youssef Nasser · Example Center',year:'2026',desc:'An example in which reviewers identified methodological limitations that require revision.',topic:'Education research',reviews:2}
+];
+function t(key){return (translations[lang]&&translations[lang][key])||key;}
+const arOptions={'Medicine & Health Sciences':'الطب والعلوم الصحية','Natural Sciences':'العلوم الطبيعية','Engineering & Technology':'الهندسة والتكنولوجيا','Social Sciences':'العلوم الاجتماعية','Humanities':'العلوم الإنسانية','Agriculture & Environment':'الزراعة والبيئة','Other':'غير ذلك','Original research':'بحث أصيل','Replication study':'دراسة تكرارية','Negative findings':'نتائج سلبية','Protocol':'بروتوكول بحث','Systematic review':'مراجعة منهجية','Methods / software':'منهجيات وبرمجيات','Other scholarly work':'عمل أكاديمي آخر','Approval obtained':'موافقة لجنة الأخلاقيات حيث تلزم','Exempt / not required':'معفى أو غير مطلوب','Not applicable':'لا ينطبق'};
+$$('select option').forEach(op=>{op.dataset.en=op.textContent;});
+function translateSelectOptions(){for(const op of $$('select option')){op.textContent=lang==='ar'?(arOptions[op.value]||(op.value===''?'اختر من القائمة':op.dataset.en)):op.dataset.en;}}
+// Change only the directly owned text nodes of each translated element.
+// Never replace the element itself: that would discard icons, labels, and controls.
+function replaceLocalizedText(el,wanted){
+ const key=el.dataset.i18n;
+ const original=el.dataset.enText||'';
+ const value=wanted==='ar'?translations.ar[key]:original;
+ if(typeof value!=='string')return;
+ if(key==='heroTitle'){
+   const emph=el.querySelector('em');
+   if(emph){
+     const fragments=wanted==='ar'?value.match(/^([\s\S]*?)<em>([\s\S]*?)<\/em>([\s\S]*)$/):null;
+     const first=Array.from(el.childNodes).find(n=>n.nodeType===3);
+     if(first)first.textContent=fragments?fragments[1]:(el.dataset.enFirst||'');
+     emph.textContent=fragments?fragments[2]:(el.dataset.enEm||'');
+     return;
+   }
+ }
+ let v=value;
+ if(el.querySelector('sup'))v=v.replace(/[\s*]+$/,'');
+ const ownText=Array.from(el.childNodes).find(n=>n.nodeType===3);
+ if(ownText)ownText.textContent=v+(el.children.length?' ':'');
+ else el.insertBefore(document.createTextNode(v+' '),el.firstChild);
+}
+function setLanguage(newLang){
+ const wanted=newLang==='ar'?'ar':'en';
+ const previous=lang;
+ try{
+  // Avoid rebuilding 147 DOM elements every time the English home page loads.
+  if(wanted!==previous){
+    $$('[data-i18n]').forEach(el=>replaceLocalizedText(el,wanted));
+    lang=wanted;
+  }
+  // Avoid a document-root direction transition during first paint on Android.
+  // Critical Android fix: keep the layout's bidi scroll origin stable.
+  // Mobile Chromium could create >10,000px horizontal overflow when body.dir=rtl.
+  document.documentElement.lang=lang;
+  document.documentElement.dir='ltr';
+  document.body.dir='ltr';
+  document.body.classList.toggle('lang-ar',lang==='ar');
+  const langBtn=$('#langBtn');if(langBtn)langBtn.textContent=lang==='ar'?'English':'العربية';
+  translateSelectOptions();
+  const modeLine=$('#submitModeLine');if(modeLine)modeLine.textContent=live?(lang==='ar'?t('formLive'):'Pilot upload mode — files go to a private repository'):(lang==='ar'?t('formDemo'):'Demonstration mode — no file leaves your browser');
+  const formError=$('#formError');if(formError&&!formError.hidden)formError.hidden=true;
+  const search=$('#search');if(search)search.placeholder=lang==='ar'?'ابحث في عناوين الأمثلة وتخصصاتها':'Search sample titles, subjects or authors';
+  renderLibrary();updateSim();setStep(step);
+  // Emergency guard: prevent an off-screen 10k-pixel layout if RTL overflows again.
+  // This executes after layout, but never recurses indefinitely (English is not checked).
+  if(lang==='ar')requestAnimationFrame(()=>{
+    if(lang!=='ar')return;
+    const viewport=Math.max(1,window.innerWidth||document.documentElement.clientWidth);
+    const pageWidth=document.documentElement.scrollWidth;
+    if(pageWidth>Math.max(1200,viewport*3)){
+      reportUiError('rtl-overflow',new Error('Unexpected Arabic scrollWidth '+pageWidth+' at viewport '+viewport));
+      setLanguage('en');
+      showUiWarning('حدث خلل في تخطيط العربية؛ أُعيد عرض الإنجليزية تلقائيًا. / Arabic layout issue; English restored.');
+    }
+  });
+  // Intentionally do not persist locale in localStorage until the mobile issue
+  // is independently resolved. Old 'uj-orh-lang' values are safely ignored.
+  return true;
+ }catch(error){
+  reportUiError('language',error);
+  console.error('UJORH language switch failed:',error);
+  lang='en';document.documentElement.lang='en';document.documentElement.dir='ltr';document.body.dir='ltr';document.body.classList.remove('lang-ar');
+  showUiWarning('تعذّر تغيير اللغة. الموقع يعمل بالإنجليزية. / Language change failed; the website remains accessible.');
+  return false;
+ }
+}
+function reportUiError(source,error){
+ try{sessionStorage.setItem('ujorh-ui-last-error',JSON.stringify({source:String(source).slice(0,40),message:String(error?.message||error).slice(0,150),when:new Date().toISOString()}));}catch(_error){}
+}
+function showUiWarning(message){
+ try{let box=document.getElementById('ujorh-ui-warning');if(!box){box=document.createElement('div');box.id='ujorh-ui-warning';box.setAttribute('role','alert');box.style.cssText='position:relative;z-index:99999;padding:12px 16px;background:#fff3cd;color:#352d17;border:2px solid #ad8032;font:14px/1.6 system-ui';document.body.insertBefore(box,document.body.firstChild);}box.textContent=message;}catch(_error){}
+}
+// Capture original English text before applying translations.
+$$('[data-i18n]').forEach(el=>{
+ el.dataset.en=el.innerHTML;
+ const node=Array.from(el.childNodes).find(n=>n.nodeType===3);
+ el.dataset.enText=node?node.textContent.trim():el.textContent.trim();
+ if(el.dataset.i18n==='heroTitle'){
+   el.dataset.enFirst=node?node.textContent:'';
+   const em=el.querySelector('em');el.dataset.enEm=em?em.textContent:'';
+ }
+});
+function setTheme(v){try{theme=v==='dark'?'dark':'light';document.body.classList.toggle('dark',theme==='dark');document.documentElement.dataset.colorMode=theme;const btn=$('#themeBtn');if(btn){btn.textContent=theme==='dark'?'☀':'☾';btn.setAttribute('aria-pressed',String(theme==='dark'));}saveSetting('uj-orh-theme',theme);return true;}catch(error){reportUiError('theme',error);console.error('UJORH theme error:',error);return false;}}
+function setStep(n){step=n;$$('.form-page').forEach(el=>el.classList.toggle('shown',Number(el.dataset.page)===step));$$('.step').forEach(el=>{let idx=Number(el.dataset.step);el.classList.toggle('current',idx===step);el.classList.toggle('complete',idx<step);});$('#prevBtn').hidden=step===1;$('#nextBtn').hidden=step===3;$('#sendBtn').hidden=step!==3;$('#formError').hidden=true;}
+function showErr(message){let el=$('#formError');el.textContent=message;el.hidden=false;el.scrollIntoView({block:'nearest',behavior:'smooth'});}
+function validPage(n){const page=document.querySelector(`.form-page[data-page="${n}"]`);for(const input of page.querySelectorAll('input[required],textarea[required],select[required]')){if(!input.checkValidity() || (input.type==='checkbox'&&!input.checked)){input.focus();return false;}}return true;}
+function checkFile(file){if(!file)return false;const ext=file.name.split('.').pop().toLowerCase();return ['pdf','docx'].includes(ext)&&file.size>0&&file.size<=Number(cfg.maxFileMB||5)*1024*1024;}
+function setFile(file){if(!checkFile(file)){pickedFile=null;$('#filePicked').hidden=true;showErr(t('errorFile')==='errorFile'?'Please choose a valid PDF or DOCX within the size limit.':t('errorFile'));return;}pickedFile=file;$('#filePicked').textContent=`✓ ${file.name} · ${(file.size/1024/1024).toFixed(2)} MB`;$('#filePicked').hidden=false;$('#formError').hidden=true;}
+async function startTurnstile(){if(!live)return;$('#turnstileWrap').hidden=false;const key=cfg.turnstileSiteKey;if(!key)return;const script=document.createElement('script');script.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';script.async=true;script.defer=true;document.head.appendChild(script);const start=Date.now();const timer=setInterval(()=>{if(window.turnstile){clearInterval(timer);turnstileWidgetId=window.turnstile.render('#turnstileSlot',{sitekey:key});}else if(Date.now()-start>20000){clearInterval(timer);}},150);}
+function randomDemoId(){return 'DEMO-'+new Date().toISOString().slice(0,10).replace(/-/g,'')+'-'+Math.random().toString(36).slice(2,7).toUpperCase();}
+async function submitForm(ev){ev.preventDefault();if(!validPage(1)||!validPage(2)||!validPage(3)){showErr(lang==='ar'?t('errorRequired'):'Complete all required fields and confirmations.');return;}if(!checkFile(pickedFile)){showErr(lang==='ar'?t('errorFile'):'Please choose a valid PDF or DOCX within the size limit.');return;}
+ const send=$('#sendBtn');send.disabled=true;send.textContent=lang==='ar'?'جارٍ الإرسال...':'Processing...';
+ try{let ref='';if(!live){await new Promise(r=>setTimeout(r,550));ref=randomDemoId();}else{
+   const token=window.turnstile&&turnstileWidgetId!==null?window.turnstile.getResponse(turnstileWidgetId):'';
+   if(!token)throw new Error(lang==='ar'?t('errorRobot'):'Complete the anti-bot verification.');
+   const f=new FormData($('#submitForm'));f.set('file',pickedFile,pickedFile.name);f.set('turnstileToken',token);
+   const res=await fetch(cfg.apiUrl.replace(/\/$/,'')+'/api/submit',{method:'POST',body:f,mode:'cors',cache:'no-store'});
+   let data=await res.json().catch(()=>({}));if(!res.ok)throw new Error(data.message||`Upload failed (HTTP ${res.status}).`);ref=data.submissionId;
+ }
+ $('#submitForm').hidden=true;$('#successBox').hidden=false;$('#successTitle').textContent=lang==='ar'?'تم استلام الطلب':'Submission received';$('#successDescription').textContent=live?(lang==='ar'?t('liveSuccess'):'Your manuscript has been placed in the private pilot repository. This is not publication or peer-review certification.'):(lang==='ar'?t('demoSuccess'):'Demonstration completed locally. No file has been uploaded or shared. This receipt is illustrative only.');$('#receiptText').textContent=ref;
+ }catch(e){showErr(e.message||(lang==='ar'?t('errorNetwork'):'The upload could not be completed.'));if(live && window.turnstile && turnstileWidgetId!==null)window.turnstile.reset(turnstileWidgetId);}finally{send.disabled=false;send.textContent=lang==='ar'?t('send'):'Submit manuscript ↗';}}
+function paperStatus(status){return lang==='ar'?({validated:'معتمد',preprint:'مسودة أولية',revision:'بحاجة إلى تعديل'}[status]):({validated:'Validated',preprint:'Preprint',revision:'Needs revision'}[status]);}
+function escapeHTML(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function renderLibrary(){const list=records.filter(r=>(filter==='all'||r.status===filter)&&(`${r.title} ${r.ar} ${r.author} ${r.field} ${r.topic}`.toLowerCase().includes(query.toLowerCase())));$('#researchGrid').innerHTML=list.length?list.map(r=>`<article class="paper-card"><div class="paper-top"><span class="paper-label">${escapeHTML(r.field.toUpperCase())}</span><span class="status ${r.status}">${paperStatus(r.status)}</span></div><h3>${escapeHTML(lang==='ar'?r.ar:r.title)}</h3><p>${escapeHTML(lang==='ar'?t('sampleAbstract'):r.desc)}</p><div class="paper-meta"><span>${escapeHTML(r.author)}</span><span>${r.year}</span></div><div class="paper-bottom"><b>${r.grade!=='—'?`GRADE ${r.grade}`:(lang==='ar'?'غير معتمد':'Not certified')}</b><button type="button" data-paper="${r.id}">${lang==='ar'?t('readExample'):'View example ↗'}</button></div></article>`).join(''):`<div>${lang==='ar'?t('noResults'):'No matching examples.'}</div>`;$$('[data-paper]').forEach(el=>el.addEventListener('click',()=>openPaper(Number(el.dataset.paper))));}
+function openPaper(id){const r=records.find(r=>r.id===id);if(!r)return;$('#paperDetail').innerHTML=`<span class="status ${r.status}">${paperStatus(r.status)}</span><h3>${escapeHTML(lang==='ar'?r.ar:r.title)}</h3><p>${escapeHTML(r.author)} · ${escapeHTML(r.field)} · ${r.year}</p><p>${lang==='ar'?'هذا سجل افتراضي للتوضيح فقط، ولا يمثل بحثاً منشوراً.':'This is a synthetic example, not an actual published article or independent scientific judgment.'}</p><div class="dialog-grid"><div>${lang==='ar'?'حالة التقييم':'Certification status'}<strong>${paperStatus(r.status)}</strong></div><div>${lang==='ar'?'الدرجة الافتراضية':'Illustrative grade'}<strong>${escapeHTML(r.grade)}</strong></div><div>${lang==='ar'?'مراجعات الخبراء':'Expert reviews'}<strong>${r.reviews}</strong></div><div>${lang==='ar'?'نوع الدراسة':'Research type'}<strong>${escapeHTML(r.type)}</strong></div></div>`;$('#paperDialog').showModal();}
+function updateSim(){$('#replicationCount').textContent=String(replications);$('#reviewCount').textContent=String(2+Math.floor(replications/2));$('#impactText').textContent=lang==='ar'?(replications===0?t('impactEmerging'):replications<3?t('impactDeveloping'):t('impactStudied')):(replications===0?'Emerging':replications<3?'Developing':'Additional independent evidence');}
+function init(){document.getElementById('year').textContent=new Date().getFullYear();setTheme(theme);setLanguage(lang);$('#formStatus').textContent=live?'PILOT':'DEMO';$('#formStatus').className='pill '+(live?'pill-green':'pill-amber');$$('.dropzone small').forEach(el=>{if(lang==='en')el.textContent=`Maximum ${cfg.maxFileMB} MB in this prototype`;});const support=$('#supportContact');if(cfg.supportEmail){support.innerHTML='';const a=document.createElement('a');a.href='mailto:'+encodeURIComponent(cfg.supportEmail);a.textContent=cfg.supportEmail;support.appendChild(a);}
+ $('#themeBtn').addEventListener('click',()=>setTheme(theme==='dark'?'light':'dark'));
+ $('#langBtn').addEventListener('click',()=>setLanguage(lang==='en'?'ar':'en'));
+ $('#nextBtn').addEventListener('click',()=>{if(validPage(step)){setStep(step+1);}else showErr(lang==='ar'?t('errorRequired'):'Please complete all required fields on this step.');});
+ $('#prevBtn').addEventListener('click',()=>setStep(step-1));
+ $('#dropzone').addEventListener('click',()=>$('#file').click());
+ $('#dropzone').addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();$('#file').click();}});
+ $('#file').addEventListener('change',e=>{if(e.target.files[0])setFile(e.target.files[0]);});
+ $('#dropzone').addEventListener('dragover',e=>{e.preventDefault();e.currentTarget.classList.add('dragging');});
+ $('#dropzone').addEventListener('dragleave',e=>{e.currentTarget.classList.remove('dragging');});
+ $('#dropzone').addEventListener('drop',e=>{e.preventDefault();e.currentTarget.classList.remove('dragging');if(e.dataTransfer.files[0])setFile(e.dataTransfer.files[0]);});
+ $('#submitForm').addEventListener('submit',submitForm);
+ $('#anotherBtn').addEventListener('click',()=>{$('#submitForm').reset();pickedFile=null;$('#filePicked').hidden=true;$('#submitForm').hidden=false;$('#successBox').hidden=true;setStep(1);if(live&&window.turnstile&&turnstileWidgetId!==null)window.turnstile.reset(turnstileWidgetId);});
+ $('#search').addEventListener('input',e=>{query=e.target.value;renderLibrary();});
+ $$('.chip').forEach(b=>b.addEventListener('click',()=>{filter=b.dataset.filter;$$('.chip').forEach(x=>x.classList.toggle('active',x===b));renderLibrary();}));
+ $('#simulateBtn').addEventListener('click',()=>{replications=Math.min(replications+1,9);updateSim();});$('#resetSimBtn').addEventListener('click',()=>{replications=0;updateSim();});
+ $('#closeDialog').addEventListener('click',()=>$('#paperDialog').close());$('#paperDialog').addEventListener('click',e=>{if(e.target===$('#paperDialog'))$('#paperDialog').close();});
+ startTurnstile();
+}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
