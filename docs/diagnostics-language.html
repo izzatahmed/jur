@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UJORH — تشخيص تبديل اللغة v3.1.3</title>
+<style>
+:root{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;color-scheme:light;background:#f4f8fa;color:#102d44}
+*{box-sizing:border-box}body{margin:0}main{max-width:820px;margin:0 auto;padding:20px 14px 38px}
+h1{font-size:clamp(21px,5vw,30px);margin:8px 0}.desc{line-height:1.8;color:#506878;font-size:14px}
+.panel{padding:17px;border:1px solid #d5e4e9;background:#fff;border-radius:15px;margin:15px 0;box-shadow:0 6px 20px #17384b0b}
+.buttons{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+button,a.btn{border:0;display:inline-block;border-radius:9px;padding:12px 15px;background:#105a58;color:#fff;font-weight:750;font:inherit;text-decoration:none;cursor:pointer;min-height:44px}
+button.alt{background:#25455f}button:disabled{opacity:.45;cursor:default}
+#status{font-weight:750;margin-top:12px;min-height:24px}#log{width:100%;min-height:275px;border:1px solid #b7cbd1;border-radius:10px;padding:12px;background:#f8fbfc;font:12px/1.6 ui-monospace,SFMono-Regular,Consolas,monospace;direction:ltr;text-align:left;white-space:pre-wrap;color:#143149}
+#preview{border:1px solid #c6dbe3;border-radius:8px;width:100%;height:400px;background:white}
+.small{font-size:12px;color:#637d88;line-height:1.65}strong{color:#0c574e}
+</style>
+</head>
+<body><main>
+<h1>تشخيص مشكلة الصفحة البيضاء عند تغيير اللغة</h1>
+<p class="desc">هذه صفحة مستقلة للاختبار، وليست تحديثًا للموقع. تعرض الصفحة الرئيسية داخل نافذة صغيرة وتقيس حالة الواجهة <strong>قبل</strong> التحويل إلى العربية و<strong>بعده</strong>. لا ترفع مخطوطات ولا تستخدم مفاتيح خاصة.</p>
+<div class="panel">
+  <div class="buttons">
+    <button id="start">١ — تحميل الموقع داخل الفاحص</button>
+    <button id="switch" class="alt" disabled>٢ — التحويل إلى العربية</button>
+    <button id="repeat" class="alt" disabled>اختبار تبديل اللغة ٥ مرات</button>
+  </div>
+  <p id="status">جاهز للبدء.</p>
+  <iframe id="preview" title="معاينة الموقع أثناء التشخيص" loading="eager" referrerpolicy="same-origin"></iframe>
+  <p class="small">اختبر زر التحويل من هنا، وليس من الموقع الرئيسي. إذا أصبحت المعاينة بيضاء لكن صفحة التشخيص بقيت ظاهرة، انسخ التقرير أدناه.</p>
+</div>
+<div class="panel">
+  <h2 style="font-size:18px;margin:0 0 10px">تقرير الفحص</h2>
+  <textarea id="log" readonly spellcheck="false" aria-label="تقرير الفحص"></textarea>
+  <div class="buttons" style="margin-top:10px"><button id="copy">نسخ التقرير</button><button id="clear" class="alt">مسح التقرير</button></div>
+  <p class="small">يظهر التقرير نسخة البرنامج، حالة النصوص والتنسيق، أبعاد الصفحة، وأخطاء JavaScript إن حدثت. لا تشارك بيانات خاصة أو رموز دخول.</p>
+</div>
+</main>
+<script>
+(function(){'use strict';
+const frame=document.getElementById('preview'),log=document.getElementById('log'),status=document.getElementById('status');
+const btnStart=document.getElementById('start'),btnSwitch=document.getElementById('switch'),btnRepeat=document.getElementById('repeat');
+let ready=false,busy=false,errorCount=0;
+function write(line){log.value+=(log.value?'\n':'')+line;log.scrollTop=log.scrollHeight;}
+function stamp(){return new Date().toISOString();}
+function markStatus(message){status.textContent=message;}
+function getFrame(){try{return frame.contentWindow&&frame.contentDocument?{w:frame.contentWindow,d:frame.contentDocument}:null;}catch(e){write('FRAME ACCESS: '+e.message);return null;}}
+function metric(label){
+ const x=getFrame();if(!x){write(label+': frame inaccessible');return;}
+ try{
+  const {w,d}=x,doc=d.documentElement,b=d.body,main=d.getElementById('main'),button=d.getElementById('langBtn');
+  const cs=main?w.getComputedStyle(main):null,bs=b?w.getComputedStyle(b):null,rect=main?main.getBoundingClientRect():null;
+  const ver=d.querySelector('meta[name="application-version"]')?.content||'not declared';
+  const js=d.querySelector('script[src*="app-"]')?.getAttribute('src')||'not found';
+  const css=d.getElementById('ujorh-critical-css')?.getAttribute('href')||'not found';
+  const err=w.sessionStorage?.getItem('ujorh-ui-last-error')||'none';
+  const readyCSS=w.getComputedStyle(doc).getPropertyValue('--ujorh-style-ready').trim()||'none';
+  write('['+label+'] '+stamp());
+  write('version='+ver+'; lang='+doc.lang+'; body.dir='+(b?.dir||'none')+'; button='+(button?.textContent||'missing'));
+  write('JS='+js+'; CSS='+css+'; style-ready='+readyCSS);
+  write('main exists='+!!main+'; text chars='+(main?.innerText?.length??'unknown')+'; nodes='+(main?.querySelectorAll('*').length??0));
+  write('main display='+(cs?.display||'n/a')+'; visibility='+(cs?.visibility||'n/a')+'; opacity='+(cs?.opacity||'n/a'));
+  write('body display='+(bs?.display||'n/a')+'; body direction='+(bs?.direction||'n/a')+'; body bg='+(bs?.backgroundColor||'n/a'));
+  write('viewport='+w.innerWidth+'x'+w.innerHeight+'; scrollX='+w.scrollX+'; scrollY='+w.scrollY+'; doc scrollWidth='+doc.scrollWidth+'; frame main rect='+ (rect?JSON.stringify({x:Math.round(rect.x),y:Math.round(rect.y),w:Math.round(rect.width),h:Math.round(rect.height)}):'missing'));
+  write('last recorded error='+String(err).slice(0,250));
+ }catch(e){write('METRICS ERROR: '+(e?.message||e));}
+}
+function listen(){const x=getFrame();if(!x)return; x.w.addEventListener('error',e=>{errorCount++;write('WINDOW ERROR ['+stamp()+']: '+String(e.message).slice(0,280));});x.w.addEventListener('unhandledrejection',e=>{errorCount++;write('PROMISE ERROR ['+stamp()+']: '+String(e.reason?.message||e.reason).slice(0,280));});}
+function sleep(n){return new Promise(r=>setTimeout(r,n));}
+async function languageSwitch(){const x=getFrame();if(!x){write('Cannot access page frame.');return;}
+try{const btn=x.d.getElementById('langBtn');if(!btn){write('ERROR: Language button not found.');return;}
+ const before=x.d.documentElement.lang;write('CLICK language button, before='+before);
+ btn.click();
+ await sleep(150);metric('AFTER 150ms');
+ await sleep(850);metric('AFTER 1000ms');
+ await sleep(1000);metric('AFTER 2000ms');
+}catch(e){write('SWITCH EXCEPTION: '+String(e?.stack||e).slice(0,500));}}
+function busyState(flag){busy=flag;btnSwitch.disabled=flag||!ready;btnRepeat.disabled=flag||!ready;btnStart.disabled=flag;}
+btnStart.addEventListener('click',()=>{ready=false;busyState(true);errorCount=0;log.value='UJORH LANGUAGE DIAGNOSTIC v3.1.3 — '+stamp()+'\nBrowser: '+navigator.userAgent+'\nTop viewport: '+window.innerWidth+'x'+window.innerHeight;markStatus('جاري تحميل نسخة الاختبار…');frame.src='index.html?diagnostic-language='+Date.now();});
+frame.addEventListener('load',async()=>{const x=getFrame();if(!x){markStatus('تعذر الوصول إلى الصفحة داخل الفاحص.');busyState(false);return;}
+listen();await sleep(300);ready=!!x.d.getElementById('langBtn');metric('INITIAL PAGE LOADED');busyState(false);markStatus(ready?'تم التحميل. اضغط زر التحويل إلى العربية.':'لم يُعثر على زر اللغة. راجع التقرير.');});
+btnSwitch.addEventListener('click',async()=>{if(busy)return;busyState(true);await languageSwitch();busyState(false);markStatus('انتهى الفحص. راقب المعاينة وانسخ التقرير.');});
+btnRepeat.addEventListener('click',async()=>{if(busy)return;busyState(true);for(let i=0;i<5;i++){write('--- toggle '+(i+1)+'/5 ---');await languageSwitch();}busyState(false);markStatus('اكتمل اختبار التبديل المتكرر.');});
+document.getElementById('copy').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(log.value);markStatus('تم نسخ التقرير.');}catch(_e){log.focus();log.select();markStatus('انسخ النص المحدد يدويًا، فقد يمنع المتصفح النسخ التلقائي.');}});
+document.getElementById('clear').addEventListener('click',()=>{log.value='';markStatus('تم مسح التقرير.');});
+})();
+</script></body></html>
