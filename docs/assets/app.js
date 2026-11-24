@@ -10,8 +10,12 @@ const translations = {
  },
  en:{}
 };
-let lang=localStorage.getItem('uj-orh-lang')==='ar'?'ar':'en';
-let theme=localStorage.getItem('uj-orh-theme')==='dark'?'dark':'light';
+// Mobile browsers and privacy modes can intermittently disable localStorage.
+// Preferences are optional: failure must never stop page initialization.
+function readSetting(key){try{return window.localStorage.getItem(key);}catch(error){console.warn('Preference storage unavailable:',key);return null;}}
+function saveSetting(key,value){try{window.localStorage.setItem(key,value);}catch(error){console.warn('Preference not persisted:',key);}}
+let lang=readSetting('uj-orh-lang')==='ar'?'ar':'en';
+let theme=readSetting('uj-orh-theme')==='dark'?'dark':'light';
 let step=1, pickedFile=null, turnstileWidgetId=null, filter='all', query='', replications=0;
 const records=[
  {id:1,field:'Medicine & Health Sciences',type:'Original research',status:'validated',grade:'A',title:'Blood pressure patterns and long-term cardiovascular outcomes: a cohort analysis',ar:'أنماط ضغط الدم والنتائج القلبية الوعائية طويلة المدى: دراسة أترابية',author:'Dr. Sara Mahmoud · Example University',year:'2026',desc:'A hypothetical clinical cohort investigating the relationship between pressure patterns and outcomes.',topic:'Cardiovascular medicine',reviews:2},
@@ -23,10 +27,10 @@ function t(key){return (translations[lang]&&translations[lang][key])||key;}
 const arOptions={'Medicine & Health Sciences':'الطب والعلوم الصحية','Natural Sciences':'العلوم الطبيعية','Engineering & Technology':'الهندسة والتكنولوجيا','Social Sciences':'العلوم الاجتماعية','Humanities':'العلوم الإنسانية','Agriculture & Environment':'الزراعة والبيئة','Other':'غير ذلك','Original research':'بحث أصيل','Replication study':'دراسة تكرارية','Negative findings':'نتائج سلبية','Protocol':'بروتوكول بحث','Systematic review':'مراجعة منهجية','Methods / software':'منهجيات وبرمجيات','Other scholarly work':'عمل أكاديمي آخر','Approval obtained':'موافقة لجنة الأخلاقيات حيث تلزم','Exempt / not required':'معفى أو غير مطلوب','Not applicable':'لا ينطبق'};
 $$('select option').forEach(op=>{op.dataset.en=op.textContent;});
 function translateSelectOptions(){for(const op of $$('select option')){op.textContent=lang==='ar'?(arOptions[op.value]||(op.value===''?'اختر من القائمة':op.dataset.en)):op.dataset.en;}}
-function setLanguage(newLang){lang=newLang;localStorage.setItem('uj-orh-lang',lang);document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';$$('[data-i18n]').forEach(el=>{const val=translations[lang]?.[el.dataset.i18n];if(typeof val==='string'){if(['heroTitle'].includes(el.dataset.i18n)){el.innerHTML=val;}else{el.textContent=val;}}else if(lang==='en' && el.dataset.en){el.innerHTML=el.dataset.en;}});$('#langBtn').textContent=lang==='ar'?'English':'العربية';translateSelectOptions();$('#submitModeLine').textContent=live?(lang==='ar'?t('formLive'):'Pilot upload mode — files go to a private repository'):(lang==='ar'?t('formDemo'):'Demonstration mode — no file leaves your browser');if($('#formError')&&!$('#formError').hidden)$('#formError').hidden=true;$('#search').placeholder=lang==='ar'?'ابحث في عناوين الأمثلة وتخصصاتها':'Search sample titles, subjects or authors';renderLibrary();updateSim();setStep(step);}
+function setLanguage(newLang){lang=newLang;saveSetting('uj-orh-lang',lang);document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';$$('[data-i18n]').forEach(el=>{const val=translations[lang]?.[el.dataset.i18n];if(typeof val==='string'){if(['heroTitle'].includes(el.dataset.i18n)){el.innerHTML=val;}else{el.textContent=val;}}else if(lang==='en' && el.dataset.en){el.innerHTML=el.dataset.en;}});$('#langBtn').textContent=lang==='ar'?'English':'العربية';translateSelectOptions();$('#submitModeLine').textContent=live?(lang==='ar'?t('formLive'):'Pilot upload mode — files go to a private repository'):(lang==='ar'?t('formDemo'):'Demonstration mode — no file leaves your browser');if($('#formError')&&!$('#formError').hidden)$('#formError').hidden=true;$('#search').placeholder=lang==='ar'?'ابحث في عناوين الأمثلة وتخصصاتها':'Search sample titles, subjects or authors';renderLibrary();updateSim();setStep(step);}
 // Capture original English text before applying translations.
 $$('[data-i18n]').forEach(el=>el.dataset.en=el.innerHTML);
-function setTheme(v){theme=v;localStorage.setItem('uj-orh-theme',theme);document.body.classList.toggle('dark',theme==='dark');$('#themeBtn').textContent=theme==='dark'?'☀':'☾';}
+function setTheme(v){theme=v;saveSetting('uj-orh-theme',theme);document.body.classList.toggle('dark',theme==='dark');$('#themeBtn').textContent=theme==='dark'?'☀':'☾';}
 function setStep(n){step=n;$$('.form-page').forEach(el=>el.classList.toggle('shown',Number(el.dataset.page)===step));$$('.step').forEach(el=>{let idx=Number(el.dataset.step);el.classList.toggle('current',idx===step);el.classList.toggle('complete',idx<step);});$('#prevBtn').hidden=step===1;$('#nextBtn').hidden=step===3;$('#sendBtn').hidden=step!==3;$('#formError').hidden=true;}
 function showErr(message){let el=$('#formError');el.textContent=message;el.hidden=false;el.scrollIntoView({block:'nearest',behavior:'smooth'});}
 function validPage(n){const page=document.querySelector(`.form-page[data-page="${n}"]`);for(const input of page.querySelectorAll('input[required],textarea[required],select[required]')){if(!input.checkValidity() || (input.type==='checkbox'&&!input.checked)){input.focus();return false;}}return true;}
