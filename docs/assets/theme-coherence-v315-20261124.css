@@ -1,0 +1,110 @@
+/* University of Jordan Open Research Hub — Theme coherence v3.1.5
+   Visual-only overrides. No changes to layout, direction, forms, scripts or uploads.
+   Loaded AFTER styles-v314-20261124.css. */
+:root {
+  --uj-light-card:#ffffff;
+  --uj-light-inner:#f0f7f5;
+  --uj-light-border:#dbe8e7;
+  --uj-light-text:#173649;
+  --uj-light-secondary:#526e7c;
+  --uj-dark-card:#173747;
+  --uj-dark-inner:#1d4251;
+  --uj-dark-border:#3a606e;
+  --uj-dark-text:#e9f5f5;
+  --uj-dark-secondary:#bad1d8;
+}
+/* Light: use one coherent off-white/soft mint family for content panels.
+   Hero and awards remain intentional brand-color highlights. */
+body:not(.dark) .journey-card,
+body:not(.dark) .form-card,
+body:not(.dark) .feature,
+body:not(.dark) .paper-card,
+body:not(.dark) .score-card,
+body:not(.dark) .paper-dialog { border:1px solid var(--uj-light-border); }
+body:not(.dark) .score-card { background:#f6faf9; }
+body:not(.dark) .side-soft { background:#eff8f5;border-color:#d8e9e4; }
+body:not(.dark) .form-error { background:#fff5f1; }
+body:not(.dark) .notice { background:#f0f7f8; }
+body:not(.dark) .dialog-grid>div,
+body:not(.dark) .turnstile-wrap,
+body:not(.dark) .file-picked,
+body:not(.dark) .receipt { background:var(--uj-light-inner); }
+
+/* Dark: all ordinary cards use a common dark-blue surface palette. */
+body.dark .journey-card,
+body.dark .paper-dialog,
+body.dark .form-card,
+body.dark .feature,
+body.dark .paper-card,
+body.dark .score-card {
+  background:var(--uj-dark-card)!important;
+  color:var(--uj-dark-text)!important;
+  border-color:var(--uj-dark-border)!important;
+}
+body.dark .journey-card .journal-topline,
+body.dark .paper-bottom,
+body.dark .faq-list details { border-color:var(--uj-dark-border)!important; }
+body.dark .journey-top,
+body.dark .journal-topline small,
+body.dark .timeline-row small,
+body.dark .row-tag,
+body.dark .paper-dialog p,
+body.dark .feature-num,
+body.dark .form-head small,
+body.dark .score-disclaimer,
+body.dark .success-box p { color:var(--uj-dark-secondary)!important; }
+body.dark .journey-card .timeline-row b,
+body.dark .journal-topline strong,
+body.dark .paper-dialog h3,
+body.dark .side-soft b,
+body.dark .side-soft strong,
+body.dark .form-head b {color:var(--uj-dark-text)!important;}
+body.dark .journey-card .timeline:before {border-color:#476675;}
+body.dark .doc-icon,
+body.dark .timeline-icon,
+body.dark .step i,
+body.dark .feature-icon,
+body.dark .upload-symbol,
+body.dark .file-picked,
+body.dark .turnstile-wrap,
+body.dark .receipt,
+body.dark .dialog-grid>div,
+body.dark .dialog-close,
+body.dark .journey-bottom,
+body.dark .dropzone:hover,
+body.dark .dropzone.dragging,
+body.dark .step.current i {
+  background:var(--uj-dark-inner)!important;
+  border-color:var(--uj-dark-border)!important;
+  color:#dcf4eb!important;
+}
+body.dark .form-error {background:#422c36!important;color:#ffd8d0!important;border-color:#8a5961!important;}
+body.dark .notice {background:var(--uj-dark-inner)!important;color:var(--uj-dark-text)!important;border-color:var(--uj-dark-border)!important;}
+body.dark .notice span {color:#85d9dd!important;}
+body.dark .side-soft {background:#1b424b!important;border-color:var(--uj-dark-border)!important;}
+body.dark .side-soft small {color:var(--uj-dark-secondary)!important;}
+body.dark .pill-green,
+body.dark .status.validated {background:#1e554c!important;color:#b4f6da!important;}
+body.dark .pill-amber,
+body.dark .status.preprint {background:#594727!important;color:#ffe3a0!important;}
+body.dark .status.revision {background:#573740!important;color:#ffd8d5!important;}
+body.dark .timeline-row.done .timeline-icon {background:#205849!important;border-color:#347a64!important;color:#bbf7dc!important;}
+body.dark .timeline-row.active .timeline-icon {background:#25576a!important;border-color:#447c89!important;color:#d0f8ef!important;}
+body.dark .meter {background:#2a5260!important;}
+body.dark .form-actions,
+body.dark .form-head {border-color:var(--uj-dark-border)!important;}
+body.dark .paper-bottom button {color:#9cebd6!important;}
+body.dark .dialog-close:hover {background:#255868!important;}
+/* Keep native form controls and successful submission dialogs readable. */
+body.dark .field input,
+body.dark .field select,
+body.dark .field textarea,
+body.dark .search-wrap input {color:#ecf8f7!important;}
+body.dark input::placeholder,
+body.dark textarea::placeholder {color:#afc7d1!important;opacity:1;}
+/* The dark-themed research-impact panels are intentional branded highlights,
+   but their supporting text should be readable and coherent. */
+body.dark .post-card {background:#173a49!important;border-color:#3a6170!important;}
+body.dark .post-card p {color:#bdd6dc!important;}
+/* Native select menus should match the selected palette where supported. */
+body.dark select option {background:#193b4b;color:#f2fbfb;}
