@@ -1,0 +1,62 @@
+/* Publication library / article reader — theme coherence v3.1.5
+   Visual-only overrides; preserve existing JS, dark toggle and responsive layout. */
+body:not(.dark) .hero-feature,
+body:not(.dark) .pub-card,
+body:not(.dark) .article-hero,
+body:not(.dark) .article-content,
+body:not(.dark) .sidebar-card,
+body:not(.dark) .framework-grid article {border-color:#dce8e7;}
+body:not(.dark) .figbox,
+body:not(.dark) .review-item,
+body:not(.dark) .review-empty,
+body:not(.dark) .citation-box,
+body:not(.dark) .article-panel .abstract {background:#f1f8f6;}
+/* Restore a cohesive dark surface for subpanels and status explanations. */
+body.dark .hero-feature,
+body.dark .pub-card,
+body.dark .sidebar-card,
+body.dark .article-content,
+body.dark .article-hero,
+body.dark .framework-grid article,
+body.dark .notfound {
+  background:#173b49!important;
+  color:#eaf6f5!important;
+  border-color:#3b6070!important;
+}
+body.dark .article-panel .abstract,
+body.dark .figbox,
+body.dark .review-item,
+body.dark .review-empty,
+body.dark .citation-box,
+body.dark .keyword-set span,
+body.dark .inline-notice,
+body.dark .article-panel .disclaimer-small {
+  background:#204756!important;
+  color:#e2f2ef!important;
+  border-color:#426776!important;
+}
+body.dark .review-item b,
+body.dark .review-item strong,
+body.dark .hero-feature h2,
+body.dark .sidebar-card h3,
+body.dark .article-hero h1,
+body.dark .article-panel h2,
+body.dark .article-panel h3 {color:#f3fbfb!important;}
+body.dark .review-item p,
+body.dark .figbox figcaption,
+body.dark .article-panel .disclaimer-small,
+body.dark .article-hero .affiliations,
+body.dark .sidebar-card p {color:#c2d6dd!important;}
+body.dark .privacy-callout {background:#1a464a!important;border-color:#427269!important;}
+body.dark .privacy-callout a {color:#a7f0dc!important;}
+body.dark .inline-notice {color:#ffedbf!important;}
+body.dark .state.certified {background:#1d5146!important;color:#bdf8df!important;}
+body.dark .state.preprint,
+body.dark .demo-stamp {background:#594a29!important;color:#ffe2a1!important;}
+body.dark .bar-track,
+body.dark .score-track {background:#2c5460!important;}
+body.dark .article-tabs {border-color:#3b6070!important;}
+body.dark .article-tabs button {color:#c6dfe3!important;}
+body.dark .article-tabs button.active {color:#8df0ce!important;}
+body.dark .prototype-notice {background:#4e4024!important;color:#ffe7b3!important;}
+/* Preserve intentionally branded navy hero, header and award strip. */
