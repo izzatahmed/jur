@@ -4,8 +4,8 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#0c2336"><meta name="description" content="A proposed open research publishing and scientific validation hub. Independent interactive demonstration prepared for the University of Jordan.">
 <title>Open Research Hub | Scientific research deserves a pathway</title>
-<link rel="icon" href="assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" id="ujorh-critical-css" href="assets/styles-v312-20261124.css">
-<script defer src="config.js"></script><script defer src="assets/app-v312-20261124.js"></script>
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" id="ujorh-critical-css" href="assets/styles-v313-20261124.css">
+<script defer src="config.js"></script><script defer src="assets/app-v313-20261124.js"></script>
 <style>.skip{position:absolute!important;left:-10000px;top:0}.skip:focus{left:10px}</style>
 <script>
 // Detect a failed/partially cached stylesheet in a mobile browser and retry once.
@@ -37,6 +37,15 @@
 })();
 </script>
 <style id="ujorh-emergency-display">html{min-width:0}body{margin:0;min-width:0}body:not(.dark){background:#f7fafb}body{overflow-x:hidden}a.skip{position:absolute;left:-10000px;top:0}a.skip:focus{left:10px}#ujorh-ui-warning{color:#352d17}main{min-height:25vh}</style>
+<meta name="application-version" content="3.1.3">
+<script>
+// Catch unexpected UI errors without exposing private data or credentials.
+(function(){
+ function store(kind,desc){try{sessionStorage.setItem('ujorh-ui-last-error',JSON.stringify({source:kind,message:String(desc).slice(0,160),when:new Date().toISOString()}));}catch(e){}}
+ window.addEventListener('error',function(e){store('window-error',e.message||'Unspecified runtime error');});
+ window.addEventListener('unhandledrejection',function(e){store('unhandled-rejection',String(e.reason&&e.reason.message||e.reason||''));});
+})();
+</script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
