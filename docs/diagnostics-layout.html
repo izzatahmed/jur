@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="ar" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UJORH — فحص اتساع الصفحة واتجاهها</title><style>
+*{box-sizing:border-box}body{margin:0;background:#f3f8fa;color:#153348;font:15px/1.65 system-ui,Tahoma,sans-serif}
+main{margin:auto;max-width:900px;padding:18px}h1{font-size:1.35rem}.box{border:1px solid #bfd7df;border-radius:12px;padding:14px;background:#fff;margin:14px 0}
+iframe{width:100%;height:450px;border:1px solid #bccfd6;background:white}button{padding:10px 14px;margin:5px 4px;background:#11665d;color:white;border:0;border-radius:8px;min-height:43px;font:inherit}
+textarea{width:100%;min-height:260px;font:12px/1.5 monospace;direction:ltr;text-align:left;white-space:pre-wrap;background:#f8fbfc;border:1px solid #abc2ca;border-radius:8px;padding:12px}
+</style></head><body><main>
+<h1>UJORH — فحص سبب اتساع الصفحة عند تبديل اللغة</h1><p>يفحص حجم الصفحة والعناصر التي تتجاوز عرض الهاتف. لا يرفع ملفات ولا يرسل بيانات. استعمله إذا ظهرت الصفحة البيضاء مرة أخرى.</p>
+<div class="box"><button id="load">١. تحميل الصفحة</button><button id="toggle" disabled>٢. تبديل اللغة</button><button id="copy">نسخ التقرير</button><iframe id="frame" title="معاينة الصفحة"></iframe></div>
+<div class="box"><textarea id="log" readonly aria-label="سجل التشخيص"></textarea></div>
+</main><script>
+(()=>{'use strict';const q=id=>document.getElementById(id), f=q('frame'),log=q('log');const write=x=>{log.value+='\n'+x;};
+function collect(label){try{const w=f.contentWindow,d=f.contentDocument,root=d.documentElement,body=d.body;
+write('\n['+label+'] '+new Date().toISOString());write('version='+d.querySelector('meta[name="application-version"]')?.content+' lang='+root.lang+' html.dir='+root.dir+' body.dir='+body.dir+' class='+body.className);
+write('viewport='+w.innerWidth+' scrollWidth='+root.scrollWidth+' scrollLeft='+d.scrollingElement?.scrollLeft+' main='+!!d.getElementById('main'));
+const limit=w.innerWidth, arr=Array.from(d.querySelectorAll('body *')).map(el=>{const r=el.getBoundingClientRect(),cs=w.getComputedStyle(el);return {el,tag:el.tagName,id:el.id,cls:typeof el.className==='string'?el.className.slice(0,80):'',x:Math.round(r.left),right:Math.round(r.right),width:Math.round(r.width),scroll:el.scrollWidth,position:cs.position,dir:cs.direction};}).filter(v=>v.width>limit*2 || v.right>limit*2 || v.x< -limit).sort((a,b)=>Math.max(b.width,b.right)-Math.max(a.width,a.right)).slice(0,12);
+for(let i=0;i<arr.length;i++){const x=arr[i];write((i+1)+'. '+x.tag+'#'+x.id+'.'+x.cls+' x='+x.x+' right='+x.right+' width='+x.width+' scrollWidth='+x.scroll+' position='+x.position+' direction='+x.dir);}
+if(!arr.length)write('No major overflowing elements found.');
+write('lastError='+(w.sessionStorage?.getItem('ujorh-ui-last-error')||'none'));
+}catch(e){write('ERROR: '+e.message)}}
+q('load').onclick=()=>{log.value='UJORH RTL LAYOUT DIAGNOSTIC — '+new Date().toISOString();f.src='index.html?layout-check='+Date.now();};
+f.onload=()=>{q('toggle').disabled=false;setTimeout(()=>collect('BEFORE LANGUAGE SWITCH'),400)};
+q('toggle').onclick=()=>{try{f.contentDocument.getElementById('langBtn').click();setTimeout(()=>collect('AFTER 500ms'),500);setTimeout(()=>collect('AFTER 1500ms'),1500)}catch(e){write('BUTTON ERROR '+e.message)}};
+q('copy').onclick=async()=>{try{await navigator.clipboard.writeText(log.value)}catch(e){log.focus();log.select()}};
+})();</script></body></html>
