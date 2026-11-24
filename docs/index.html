@@ -4,8 +4,39 @@
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex, nofollow"><meta name="theme-color" content="#0c2336"><meta name="description" content="A proposed open research publishing and scientific validation hub. Independent interactive demonstration prepared for the University of Jordan.">
 <title>Open Research Hub | Scientific research deserves a pathway</title>
-<link rel="icon" href="assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" href="assets/styles.css">
-<script defer src="config.js"></script><script defer src="assets/app.js?v=2.0"></script>
+<link rel="icon" href="assets/mark.svg" type="image/svg+xml"><link rel="stylesheet" id="ujorh-critical-css" href="assets/styles-v312-20261124.css">
+<script defer src="config.js"></script><script defer src="assets/app-v312-20261124.js"></script>
+<style>.skip{position:absolute!important;left:-10000px;top:0}.skip:focus{left:10px}</style>
+<script>
+// Detect a failed/partially cached stylesheet in a mobile browser and retry once.
+(function(){
+  var checked=false;
+  function checkStyles(){
+    if(checked)return;
+    var styleLink=document.getElementById('ujorh-critical-css');
+    if(!styleLink||!document.body)return;
+    // All UJORH stylesheets set the body margin to zero.
+    if(getComputedStyle(document.documentElement).getPropertyValue('--ujorh-style-ready').trim()==='1')return;
+    checked=true;
+    var next=new URL(styleLink.href,location.href);
+    next.searchParams.set('fresh',String(Date.now()));
+    styleLink.href=next.href;
+    setTimeout(function(){
+      if(getComputedStyle(document.documentElement).getPropertyValue('--ujorh-style-ready').trim()==='1')return;
+      if(document.getElementById('ujorh-style-warning'))return;
+      var box=document.createElement('div');
+      box.id='ujorh-style-warning';
+      box.setAttribute('role','alert');
+      box.style.cssText='position:relative;z-index:99999;padding:16px;background:#fff3cd;color:#352d17;font:15px/1.6 Arial,sans-serif;border:2px solid #d79f35';
+      box.textContent='Page style failed to load. Please reload this page. | تعذر تحميل تنسيق الصفحة. يرجى تحديث الصفحة.';
+      document.body.insertBefore(box,document.body.firstChild);
+    },2200);
+  }
+  document.addEventListener('DOMContentLoaded',function(){setTimeout(checkStyles,1800);});
+  window.addEventListener('load',function(){setTimeout(checkStyles,350);});
+})();
+</script>
+<style id="ujorh-emergency-display">html{min-width:0}body{margin:0;min-width:0}body:not(.dark){background:#f7fafb}body{overflow-x:hidden}a.skip{position:absolute;left:-10000px;top:0}a.skip:focus{left:10px}#ujorh-ui-warning{color:#352d17}main{min-height:25vh}</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to main content</a>
